@@ -225,9 +225,49 @@ app/
 ```
 
 ### Testing Strategy
-- Unit tests for individual components
-- Integration tests for API endpoints
-- End-to-end tests for complete workflows
+
+The project includes comprehensive unit tests using `pytest` with proper dependency isolation:
+
+**Test Structure**:
+```
+tests/
+├── __init__.py          # Test package initialization
+├── conftest.py          # Test fixtures and configuration
+├── test_working.py      # Main working test suite
+├── pytest.ini           # Pytest configuration
+└── [legacy test files]  # Alternative test approaches
+```
+
+**Test Coverage**:
+- **Configuration Testing**: Settings validation and environment variable loading
+- **Model Testing**: Pydantic model validation and error handling
+- **Business Logic**: Core functionality with mocked external dependencies
+- **Error Handling**: Exception scenarios and edge cases
+- **Utility Functions**: Helper function validation and type conversion
+
+**Testing Approach**:
+- **Dependency Isolation**: External services (MongoDB, Redis, ChromaDB, OpenAI) are mocked
+- **Environment Setup**: Test environment variables configured in `conftest.py`
+- **Mock Strategy**: Complex dependency chains properly mocked to avoid network calls
+- **Assertion Coverage**: Both success and failure scenarios tested
+
+**Key Features**:
+- No external service dependencies during testing
+- Fast test execution with comprehensive mocking
+- Proper fixture management for consistent test state
+- Clear separation between unit and integration concerns
+
+**Running Tests**:
+```bash
+# Run all tests
+cd app && pytest tests/ -v
+
+# Run specific test file
+pytest tests/test_working.py -v
+
+# Run with coverage
+pytest tests/ --cov=. --cov-report=html
+```
 
 ## Monitoring and Observability
 

@@ -11,4 +11,7 @@ rq
 python-dotenv
 jinja2
 pydantic-settings
-jinja2
+pytest
+pytest-asyncio
+pytest-mock
+fakeredis

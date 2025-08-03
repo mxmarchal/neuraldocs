@@ -181,6 +181,61 @@ Environment variables (in `.env`):
 | RAG_MODEL_NAME       | OpenAI model for RAG answering        | `gpt-4.1-nano`     |
 | TOP_K                | Default number of retrieved chunks    | `5`                |
 
+## Testing
+
+The project includes comprehensive unit tests to ensure code quality and reliability.
+
+### Test Suite
+
+**Test Dependencies**:
+- `pytest`: Testing framework
+- `pytest-asyncio`: Async testing support  
+- `pytest-mock`: Enhanced mocking capabilities
+- `fakeredis`: Redis mocking for tests
+
+**Running Tests**:
+```bash
+# Install test dependencies (already in requirements.txt)
+cd app && pip install -r requirements.txt
+
+# Run all tests
+pytest tests/ -v
+
+# Run specific test file
+pytest tests/test_working.py -v
+
+# Run with coverage report
+pytest tests/ --cov=. --cov-report=html
+```
+
+**Test Coverage**:
+- ✅ Configuration validation and environment variable loading
+- ✅ Pydantic model validation and error handling  
+- ✅ Core business logic with mocked external dependencies
+- ✅ Error handling scenarios and edge cases
+- ✅ Utility function validation and type conversion
+
+**Key Features**:
+- **No External Dependencies**: All external services (MongoDB, Redis, ChromaDB, OpenAI) are properly mocked
+- **Fast Execution**: Tests run quickly without network calls or service dependencies
+- **Comprehensive Mocking**: Complex dependency chains isolated for reliable testing
+- **Environment Isolation**: Test environment configured independently
+
+### Test Architecture
+
+The tests use a sophisticated mocking strategy to isolate the application logic from external dependencies:
+
+```python
+# Example test structure
+def test_process_url_with_mocks(self):
+    with patch('httpx.get') as mock_get, \
+         patch('trafilatura.extract') as mock_extract, \
+         patch('openai.OpenAI') as mock_openai:
+        # Test logic with controlled mocks
+```
+
+This approach ensures tests are reliable, fast, and don't require external services to be running.
+
 ## Acknowledgements
 
 - [FastAPI](https://fastapi.tiangolo.com/)
@@ -189,3 +244,4 @@ Environment variables (in `.env`):
 - [sentence-transformers](https://www.sbert.net/)
 - [ChromaDB](https://github.com/chroma-core/chroma)
 - [Redis & RQ](https://python-rq.org/)
+- [pytest](https://docs.pytest.org/) - Testing framework
